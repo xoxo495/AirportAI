@@ -1,42 +1,93 @@
+import { useState, useEffect } from "react";
+
 export default function Login() {
+  const fullText = "AI Airport Intelligence Systems";
+  const [displayedText, setDisplayedText] = useState("");
+  useEffect(() => {
+    let index = displayedText.length;
+    if (index < fullText.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(fullText.slice(0, index + 1));
+      }, 70);
+      return () => clearTimeout(timer);
+    } else {
+      const resetTimer = setTimeout(() => {
+        setDisplayedText("");
+      }, 10000);
+      return () => clearTimeout(resetTimer);
+    }
+  }, [displayedText]);
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-slate-800 p-8 shadow-xl border border-slate-700">
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold text-white">Selamat Datang</h2>
-          <p className="text-sm text-slate-400 mt-1">
-            Silakan masuk ke akun Anda
-          </p>
-        </div>
-        <form className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-300">
-              Email / Username
-            </label>
-            <input
-              type="text"
-              placeholder="nama@email.com"
-              className="w-full rounded-lg bg-slate-900 border border-slate-700 p-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+    <div className="grid min-h-screen grid-cols-1 bg-slate-900 lg:grid-cols-2">
+      <div className="flex items-center justify-center p-6 sm:p-12">
+        <div className="w-full max-w-md space-y-6">
+          <div className="flex justify-center items-center w-full my-4">
+            <img
+              src="/Logo/AAILogo.png"
+              alt="Logo AAI"
+              className="mx-auto h-auto max-w-[150px] object-contain"
             />
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-slate-300">
-              Kata Sandi
-            </label>
-            <input
-              type="password"
-              placeholder="Masukkan kata sandi anda..."
-              className="w-full rounded-lg bg-slate-900 border border-slate-700 p-2.5 text-sm text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-sky-600 py-2.5 text-sm font-semibold text-blue shadow-md transition-colors hover:bg-sky-500 active:bg-sky-700"
-          >
-            Masuk
-          </button>
-        </form>
+          <form className="space-y-4">
+            <div>
+              <label
+                className="mb-1 block text-sm font-medium text-slate-300"
+                style={{ color: "#404041" }}
+              >
+                Email / Username
+              </label>
+              <input
+                type="text"
+                placeholder="nama@email.com"
+                className="w-full rounded-full border-2 border-sky-500 bg-transparent p-3 text-sm text-slate-800 placeholder-slate-400 transition focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-200"
+              />
+            </div>
+
+            <div>
+              <label
+                className="mb-1 block text-sm font-medium"
+                style={{ color: "#404041" }}
+              >
+                Kata Sandi
+              </label>
+              <input
+                type="password"
+                placeholder="Masukkan kata sandi anda..."
+                className="w-full rounded-full border border-slate-700 bg-slate-800/50 p-3 text-sm placeholder-slate-500 transition focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-full bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-sky-500 active:bg-blue-900"
+            >
+              Masuk
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div className="relative hidden items-center justify-center lg:flex overflow-hidden">
+        <img
+          src="/Background/1307317.jpg"
+          alt="Latar Belakang Teknologi"
+          className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to left, #1D2250 0%, rgba(4, 176, 192, 0.26) 100%)",
+          }}
+        />
+        <div className="relative z-10 text-right text-white max-w-lg p-4 space-y-1">
+          <h1 className="text-5xl font-semibold">Selamat Datang Di</h1>
+          <h1 className="text-6xl font-bold text-slate-900">{displayedText}</h1>
+          <p className="text-base text-2xl">
+            Asisten AI untuk pelayanan bandara
+          </p>
+        </div>
       </div>
     </div>
   );
