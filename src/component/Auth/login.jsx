@@ -1,8 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Login() {
   const fullText = "AI Airport Intelligence Systems";
   const [displayedText, setDisplayedText] = useState("");
+  const [btnStyle, setBtnStyle] = useState({});
+  const timerRef = useRef(null);
+
+  const handleHover = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    const randomX = Math.floor(Math.random() * 300) - 150;
+    const randomY = Math.floor(Math.random() * 200) - 100;
+    const randomScale = (Math.random() * (0.5 - 0.2) + 0.2).toFixed(2);
+    const randomRotate = Math.floor(Math.random() * 360);
+
+    setBtnStyle({
+      transform: `translate(${randomX}px, ${randomY}px) scale(${randomScale}) rotate(${randomRotate}deg)`,
+    });
+    timerRef.current = setTimeout(() => {
+      setBtnStyle({
+        transform: "translate(0px, 0px) scale(1) rotate(0deg)",
+      });
+    }, 1500);
+  };
+
   useEffect(() => {
     let index = displayedText.length;
     if (index < fullText.length) {
@@ -60,7 +80,9 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full rounded-full bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition-colors hover:bg-sky-500 active:bg-blue-900"
+              onMouseEnter={handleHover}
+              style={btnStyle}
+              className="w-full rounded-full bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 ease-out"
             >
               Masuk
             </button>
