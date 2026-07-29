@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 export default function Login() {
   const fullText = "AI Airport Intelligence Systems";
@@ -6,23 +7,26 @@ export default function Login() {
   const [btnStyle, setBtnStyle] = useState({});
   const timerRef = useRef(null);
 
+  const formRef = useRef(null);
+  const logoRef = useRef(null);
+  const rightSectionRef = useRef(null);
+
   const handleHover = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
-    const randomX = Math.floor(Math.random() * 300) - 150;
-    const randomY = Math.floor(Math.random() * 200) - 100;
-    const randomScale = (Math.random() * (0.5 - 0.2) + 0.2).toFixed(2);
+    const randomX = Math.floor(Math.random() * 200) - 100;
+    const randomY = Math.floor(Math.random() * 120) - 60;
+    const randomScale = (Math.random() * (0.6 - 0.3) + 0.3).toFixed(2);
     const randomRotate = Math.floor(Math.random() * 360);
-
     setBtnStyle({
       transform: `translate(${randomX}px, ${randomY}px) scale(${randomScale}) rotate(${randomRotate}deg)`,
     });
+
     timerRef.current = setTimeout(() => {
       setBtnStyle({
         transform: "translate(0px, 0px) scale(1) rotate(0deg)",
       });
     }, 1500);
   };
-
   useEffect(() => {
     let index = displayedText.length;
     if (index < fullText.length) {
@@ -37,11 +41,39 @@ export default function Login() {
       return () => clearTimeout(resetTimer);
     }
   }, [displayedText]);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(logoRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 1,
+        ease: "power3.out",
+      });
+      gsap.from(formRef.current.children, {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+        delay: 0.3,
+      });
+      gsap.from(rightSectionRef.current, {
+        opacity: 0,
+        x: 50,
+        duration: 1.2,
+        ease: "power3.out",
+      });
+    });
+    return () => ctx.revert();
+  }, []);
   return (
     <div className="grid min-h-screen grid-cols-1 bg-slate-900 lg:grid-cols-2">
-      <div className="flex items-center justify-center p-6 sm:p-12">
+      <div className="flex items-center justify-center p-6 sm:p-12 relative z-20">
         <div className="w-full max-w-md space-y-6">
-          <div className="flex justify-center items-center w-full my-4">
+          <div
+            ref={logoRef}
+            className="flex justify-center items-center w-full my-4"
+          >
             <img
               src="/Logo/AAILogo.png"
               alt="Logo AAI"
@@ -49,7 +81,7 @@ export default function Login() {
             />
           </div>
 
-          <form className="space-y-4">
+          <form ref={formRef} className="space-y-4">
             <div>
               <label
                 className="mb-1 block text-sm font-medium text-slate-300"
@@ -63,7 +95,6 @@ export default function Login() {
                 className="w-full rounded-full border-2 border-sky-500 bg-transparent p-3 text-sm text-slate-800 placeholder-slate-400 transition focus:border-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-200"
               />
             </div>
-
             <div>
               <label
                 className="mb-1 block text-sm font-medium"
@@ -77,20 +108,23 @@ export default function Login() {
                 className="w-full rounded-full border border-slate-700 bg-slate-800/50 p-3 text-sm placeholder-slate-500 transition focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
               />
             </div>
-
-            <button
-              type="submit"
-              onMouseEnter={handleHover}
-              style={btnStyle}
-              className="w-full rounded-full bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 ease-out"
-            >
-              Masuk
-            </button>
+            <div className="relative pt-2">
+              <button
+                type="submit"
+                onMouseEnter={handleHover}
+                style={btnStyle}
+                className="w-full rounded-full bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 ease-out"
+              >
+                Masuk
+              </button>
+            </div>
           </form>
         </div>
       </div>
-
-      <div className="relative hidden items-center justify-center lg:flex overflow-hidden">
+      <div
+        ref={rightSectionRef}
+        className="relative hidden items-center justify-center lg:flex overflow-hidden"
+      >
         <img
           src="/Background/1307317.jpg"
           alt="Latar Belakang Teknologi"
