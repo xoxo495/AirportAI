@@ -1,8 +1,13 @@
-// src/component/Navbar/sidebar.jsx
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import gsap from "gsap";
 
 export default function Sidebar() {
   const location = useLocation();
+  const sidebarRef = useRef(null);
+  const logoRef = useRef(null);
+  const navRef = useRef(null);
+  const footerRef = useRef(null);
 
   const colors = {
     bgSidebar: "#ffffff",
@@ -14,8 +19,46 @@ export default function Sidebar() {
     activeBg: "#f1f5f9",
   };
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        sidebarRef.current,
+        { x: -50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+      );
+
+      gsap.fromTo(
+        logoRef.current,
+        { y: -15, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, delay: 0.2, ease: "power2.out" },
+      );
+
+      gsap.fromTo(
+        navRef.current.children,
+        { y: 15, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.1,
+          delay: 0.3,
+          ease: "power2.out",
+        },
+      );
+
+      gsap.fromTo(
+        footerRef.current,
+        { y: 15, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, delay: 0.5, ease: "power2.out" },
+      );
+    }, sidebarRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <aside
+      ref={sidebarRef}
       className="w-64 min-h-screen border-r p-4 flex flex-col justify-between shrink-0"
       style={{
         backgroundColor: colors.bgSidebar,
@@ -24,6 +67,7 @@ export default function Sidebar() {
     >
       <div className="space-y-6">
         <div
+          ref={logoRef}
           className="flex items-center gap-3 px-2 py-2 border-b pb-4"
           style={{ borderColor: colors.border }}
         >
@@ -49,7 +93,8 @@ export default function Sidebar() {
             </p>
           </div>
         </div>
-        <nav className="space-y-1">
+
+        <nav ref={navRef} className="space-y-1">
           <Link
             to="/dashboard"
             style={{
@@ -79,6 +124,7 @@ export default function Sidebar() {
             </svg>
             Dashboard
           </Link>
+
           <Link
             to="/chat"
             style={{
@@ -108,7 +154,9 @@ export default function Sidebar() {
           </Link>
         </nav>
       </div>
+
       <div
+        ref={footerRef}
         className="border-t pt-3.5 flex items-center gap-3 px-2"
         style={{ borderColor: colors.border }}
       >
