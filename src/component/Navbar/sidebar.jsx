@@ -161,23 +161,27 @@ export default function Sidebar() {
         style={{ borderColor: colors.border }}
       >
         <div
-          className="h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold text-white"
+          className="h-9 w-9 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-slate-200"
           style={{ backgroundColor: colors.navyAccent }}
         >
-          F
+          <img
+            src="/Background/230528074718920874.jpg"
+            alt="Profile"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="overflow-hidden">
           <p
             className="text-xs font-semibold truncate"
             style={{ color: colors.textPrimary }}
           >
-            Fahri Admin
+            MBG
           </p>
           <p
             className="text-[11px] truncate"
             style={{ color: colors.textMuted }}
           >
-            fahri@airport.id
+            mbg@airport.id
           </p>
         </div>
       </div>
