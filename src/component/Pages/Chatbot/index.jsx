@@ -14,13 +14,13 @@ export default function Chatbot() {
     {
       id: 2,
       sender: "user",
-      text: "<div classname>",
+      text: "Carikan saya my bini",
       time: "10:01",
     },
     {
       id: 3,
       sender: "bot",
-      text: "Adit: kocak😹",
+      text: "kocak😹",
       time: "10:01",
     },
   ]);
